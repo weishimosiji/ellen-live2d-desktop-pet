@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>艾莲功能面板</title></head>
+<body class="panel-page"><main class="panel-shell">
+  <section class="panel-card chat-card" data-panel="chat">
+    <header class="card-header"><span class="card-icon">◆</span><h1>对话</h1><span class="card-code">CHAT</span><button class="card-close" data-close-panel>✕</button></header>
+    <div class="card-body"><article class="panel-reply"><p id="agent-result">有事就说。</p><small id="agent-intent"></small></article><textarea id="agent-input" rows="3" maxlength="4000" placeholder="对艾莲说点什么…"></textarea><div class="panel-actions"><button id="voice-record">按住录音</button><button id="agent-clear">清空</button><button id="agent-send" class="primary">发送</button></div><p id="voice-result">按住 Option（Alt）录音</p>
+    </div>
+  </section>
+  <section class="panel-card calendar-card" data-panel="todo" hidden>
+    <header class="card-header"><span class="card-icon">▣</span><h1>待办日历</h1><span class="card-code">CAL</span><button id="todo-add-focus" class="card-add">+</button><button class="card-close" data-close-panel>✕</button></header>
+    <div id="todo-dialog" class="calendar-content"><header class="calendar-nav"><button id="todo-prev">◀</button><h2 id="todo-month">待办日历</h2><button id="todo-next">▶</button></header><div id="todo-calendar" class="todo-calendar"></div><div class="section-label"><i></i><span>当日事项</span></div><div id="todo-list" class="todo-list"></div><form id="todo-form"><input id="todo-title" maxlength="200" placeholder="添加待办…" required><input id="todo-time" type="time"><button>添加</button></form></div>
+  </section>
+  <section class="panel-card pomodoro-card" data-panel="timer" hidden>
+    <header class="card-header"><span class="card-icon">●</span><h1>番茄钟</h1><span class="card-code ice">TMR</span><button class="card-close" data-close-panel>✕</button></header>
+    <div class="card-body pomodoro-body"><div class="timer-dial"><div class="timer-dial-inner"><strong id="timer-primary-time">--:--</strong><small>FOCUS</small></div></div><p id="timer-primary-task" class="timer-primary-task">没有进行中的倒计时</p><div id="timer-list" class="timer-list">没有进行中的倒计时</div><footer class="barcode"><i></i><span>TM-ELLEN-01</span></footer></div>
+  </section>
+  <section class="panel-card history-card" data-panel="history" hidden><header class="card-header"><span class="card-icon">◎</span><h1>历史记录</h1><span class="card-code">LOG</span><button class="card-close" data-close-panel>✕</button></header><div class="card-body"><div id="history-list" class="history-list"><p>暂无对话记录</p></div><div class="shark-footer">SHARK MAID // ARCHIVE</div></div></section>
+  <section class="panel-card settings-card" data-panel="settings" hidden>
+    <header class="card-header"><span class="card-icon">⚙</span><h1>设置</h1><span class="card-code">CFG</span><button class="card-close" data-close-panel>ESC</button></header>
+    <div class="card-body settings-body"><label class="range-label"><span>鼠标跟随幅度</span><output id="follow-value">100%</output></label><input id="follow" type="range" min="0" max="100" value="100"><div class="range-ticks"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div><hr><label class="toggle-row"><input id="tracking" type="checkbox" checked><span><b>鼠标跟随</b><small>角色眼神随光标移动</small></span><em>ON</em></label><label class="toggle-row"><input id="auto-blink" type="checkbox" checked><span><b>自动眨眼</b><small>Live2D 随机眨眼动画</small></span><em>ON</em></label><hr><button id="reset" class="reset-button">↻　恢复默认姿势</button><p id="status">设置会同步到艾莲</p></div>
+  </section>
+  <dialog id="todo-confirm-dialog" class="confirm-card"><form method="dialog"><header><i></i><h2>确认写入待办？</h2></header><div class="confirm-body"><div class="confirm-ticket"><strong id="confirm-todo-time"></strong><p id="confirm-todo-title"></p></div><menu><button value="cancel">取消</button><button value="confirm" class="primary">确认写入</button></menu></div></form></dialog>
+</main><script type="module" src="/src/panel-page.js"></script></body></html>

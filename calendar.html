@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>艾莲待办日历</title>
+</head>
+<body class="calendar-page">
+  <dialog id="todo-dialog" class="paper-dialog calendar-standalone">
+    <header>
+      <button id="todo-prev">‹</button>
+      <h2 id="todo-month">待办日历</h2>
+      <button id="todo-next">›</button>
+      <button id="todo-close">×</button>
+    </header>
+    <div id="todo-calendar" class="todo-calendar"></div>
+    <div id="todo-list" class="todo-list"></div>
+    <form id="todo-form">
+      <input id="todo-title" maxlength="200" placeholder="添加待办…" required>
+      <input id="todo-time" type="time">
+      <button>添加</button>
+    </form>
+  </dialog>
+  <script type="module" src="/src/calendar-page.js"></script>
+</body>
+</html>

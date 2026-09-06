@@ -1,0 +1,1570 @@
+:root {
+  font-family: Inter, "PingFang SC", sans-serif;
+  color: #f6f1ed;
+  background: #090a0c
+}
+
+* {
+  box-sizing: border-box
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden
+}
+
+button,
+input,
+textarea {
+  font: inherit
+}
+
+.desktop-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at 48% 50%, #29252a 0, #111216 43%, #08090b 78%);
+  isolation: isolate
+}
+
+.desktop-shell:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: .2;
+  background: repeating-linear-gradient(145deg, transparent 0 80px, #8e1820 81px 86px, transparent 87px 145px);
+  z-index: -1
+}
+
+.stage {
+  position: absolute;
+  inset: 0
+}
+
+.stage canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%
+}
+
+.fps {
+  position: absolute;
+  right: 18px;
+  bottom: 12px;
+  color: #ffffff35;
+  font-size: 10px
+}
+
+.startup-intro {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity .42s ease
+}
+
+.startup-intro[hidden] {
+  display: none
+}
+
+.startup-intro.is-fading {
+  opacity: 0
+}
+
+.startup-intro video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center
+}
+
+/* 初始 HTML 就带开屏节点，因此脚本执行前也不会闪出 Live2D。 */
+.desktop-shell:has(.startup-intro:not([hidden])) #live2d-canvas,
+.desktop-shell.startup-active #live2d-canvas {
+  opacity: 0
+}
+
+.desktop-shell.startup-revealing #live2d-canvas {
+  opacity: 1;
+  transition: opacity .42s ease
+}
+
+.desktop-shell.startup-active .tool-rail,
+.desktop-shell.startup-active .ellen-speech,
+.desktop-shell.startup-active .timer-head {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important
+}
+
+.desktop-shell .ellen-speech {
+  position: absolute;
+  z-index: 5;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(370px, 45vw);
+  padding: 16px 24px;
+  border: 3px solid #17181b;
+  background: #f4eee4;
+  color: #151516;
+  filter: drop-shadow(7px 7px 0 #981b25);
+  clip-path: polygon(0 5%, 94% 0, 100% 84%, 60% 90%, 54% 100%, 50% 89%, 3% 94%)
+}
+
+.ellen-speech p {
+  margin: 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: 16px
+}
+
+.ellen-speech small {
+  display: block;
+  margin-top: 4px;
+  text-align: center;
+  color: #8b2a31;
+  font-size: 9px
+}
+
+.tool-rail {
+  position: absolute;
+  z-index: 8;
+  left: calc(50% - min(31vw, 310px));
+  top: 50%;
+  transform: translateY(-46%);
+  display: grid;
+  gap: 1px
+}
+
+.tool-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: .16s
+}
+
+.tool-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain
+}
+
+.tool-button:hover {
+  transform: translateX(-4px) scale(1.05);
+  filter: drop-shadow(0 0 8px #e2313c88)
+}
+
+.floating-panel,
+.paper-dialog,
+.confirm-card {
+  border: 2px solid #4a4a4a;
+  background: linear-gradient(145deg, #24262a, #111216);
+  color: #eee;
+  box-shadow: 9px 10px 0 #050506aa, 0 0 0 2px #111
+}
+
+.floating-panel {
+  position: absolute;
+  z-index: 10;
+  padding: 14px
+}
+
+.floating-panel header,
+.paper-dialog header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 10px;
+  margin: -14px -14px 12px;
+  background: linear-gradient(110deg, #bd202b 0 42%, #1a1b1e 43%)
+}
+
+.floating-panel header button,
+.paper-dialog header button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: white;
+  font-size: 20px;
+  cursor: pointer
+}
+
+.timer-window {
+  left: calc(50% + 170px);
+  bottom: 7%;
+  width: 300px
+}
+
+.history-window {
+  right: 2%;
+  top: 8%;
+  width: 310px;
+  height: 76%;
+  overflow: auto
+}
+
+.settings-window {
+  right: 3%;
+  top: 14%;
+  width: 270px
+}
+
+.settings-window label {
+  display: block;
+  margin: 10px 0;
+  font-size: 12px
+}
+
+.settings-window input[type=range] {
+  width: 100%;
+  accent-color: #d52d38
+}
+
+.settings-window button#reset {
+  width: 100%;
+  margin-top: 14px;
+  padding: 9px;
+  border: 1px solid #666;
+  background: #201f22;
+  color: #eee
+}
+
+.settings-window p {
+  font-size: 10px;
+  color: #aaa
+}
+
+.timer-ring {
+  width: 132px;
+  height: 132px;
+  margin: 10px auto;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 12px solid #54cde8;
+  box-shadow: inset 0 -12px 0 #f1eee5, 0 0 14px #54cde855
+}
+
+.timer-ring span {
+  font-size: 12px;
+  color: #aaa
+}
+
+#timer-list {
+  font-size: 12px
+}
+
+.timer-item {
+  display: flex;
+  gap: 6px;
+  margin: 5px 0
+}
+
+.timer-item span {
+  flex: 1
+}
+
+.timer-item button {
+  background: #b7212b;
+  color: white;
+  border: 0
+}
+
+.history-list article {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #444;
+  background: #17181b
+}
+
+.history-list time {
+  font-size: 9px;
+  color: #888
+}
+
+.history-list p {
+  margin: 5px 0;
+  font-size: 11px
+}
+
+.chat-dock {
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  bottom: 2%;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: minmax(230px, 430px) 54px 44px;
+  gap: 6px
+}
+
+.chat-dock textarea {
+  resize: none;
+  padding: 10px 12px;
+  border: 2px solid #555;
+  background: #111d;
+  color: #eee;
+  outline: none
+}
+
+.chat-dock button {
+  border: 1px solid #6b1f25;
+  background: #b5202b;
+  color: #fff;
+  cursor: pointer
+}
+
+.chat-dock #agent-clear {
+  background: #27282b
+}
+
+.chat-dock p {
+  grid-column: 1/-1;
+  margin: 0;
+  color: #aaa;
+  font-size: 10px;
+  text-align: center
+}
+
+.debug-drawer {
+  position: absolute;
+  z-index: 11;
+  left: 12px;
+  bottom: 12px;
+  width: 260px;
+  padding: 8px;
+  border: 1px solid #555;
+  background: #17181de8;
+  color: #ddd
+}
+
+.debug-drawer summary {
+  cursor: pointer;
+  font-weight: 700
+}
+
+.debug-drawer h3 {
+  font-size: 11px
+}
+
+.motion-grid,
+.interaction-audio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-top: 8px
+}
+
+.motion-grid button,
+.interaction-audio-grid button {
+  padding: 6px;
+  border: 1px solid #555;
+  background: #26272a;
+  color: #ddd;
+  font-size: 10px
+}
+
+.paper-dialog {
+  width: min(520px, 90vw);
+  padding: 18px
+}
+
+.paper-dialog::backdrop,
+.confirm-card::backdrop {
+  background: #07080bd0
+}
+
+.paper-dialog header h2 {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+  font-size: 17px
+}
+
+.todo-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px
+}
+
+.todo-calendar b,
+.todo-calendar i,
+.todo-calendar button {
+  display: grid;
+  place-items: center;
+  min-height: 34px;
+  font-size: 11px
+}
+
+.todo-calendar button {
+  position: relative;
+  border: 1px solid #333;
+  background: #17181b;
+  color: #eee
+}
+
+.todo-calendar button.selected {
+  border-color: #5fd9f1;
+  background: #234f59
+}
+
+.todo-calendar button.has-todo:after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e52c38
+}
+
+.todo-list {
+  min-height: 70px;
+  margin-top: 12px;
+  padding: 8px;
+  background: #111
+}
+
+.todo-item {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px;
+  gap: 5px;
+  align-items: center
+}
+
+.todo-item.completed span {
+  text-decoration: line-through;
+  color: #777
+}
+
+.paper-dialog form {
+  display: grid;
+  grid-template-columns: 1fr 100px 55px;
+  gap: 5px;
+  margin-top: 9px
+}
+
+.paper-dialog input,
+.paper-dialog form button {
+  padding: 8px;
+  border: 1px solid #555;
+  background: #17181b;
+  color: #eee
+}
+
+.confirm-card {
+  width: min(420px, 88vw);
+  padding: 24px;
+  background: #eee7da;
+  color: #151515;
+  filter: drop-shadow(8px 8px 0 #b61f29);
+  clip-path: polygon(3% 0, 100% 2%, 98% 95%, 3% 100%, 0 8%)
+}
+
+.confirm-card h2 {
+  font-size: 20px
+}
+
+.confirm-card strong {
+  color: #c4232d
+}
+
+.confirm-card menu {
+  display: flex;
+  gap: 12px;
+  padding: 0
+}
+
+.confirm-card button {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #222;
+  background: #29292b;
+  color: #fff
+}
+
+.confirm-card button.primary {
+  background: #c4202b
+}
+
+#speech-confirm {
+  position: absolute;
+  z-index: 30;
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%);
+  padding: 14px;
+  background: #eee;
+  color: #111
+}
+
+#speech-confirm[hidden] {
+  display: none
+}
+
+html,
+body,
+:root {
+  background: transparent
+}
+
+.desktop-shell {
+  background: transparent
+}
+
+.desktop-shell:before {
+  display: none
+}
+
+.fps {
+  display: none
+}
+
+.ellen-speech {
+  top: 4%;
+  left: 58%;
+  width: 300px;
+  padding: 12px 18px;
+  -webkit-app-region: drag
+}
+
+.ellen-speech p {
+  font-size: 13px
+}
+
+.ellen-speech small {
+  font-size: 8px
+}
+
+/* Electron 主窗口顶部新增 110px 气泡区；人物和工具栏整体下移相同距离，
+   因此桌面上的人物视觉位置不变。浏览器 300×300 预览不应用本段。 */
+html:not(.browser-preview) .desktop-shell #live2d-canvas {
+  top: calc(50% + 55px)
+}
+
+html:not(.browser-preview) .desktop-shell .tool-rail {
+  top: calc(49% + 56px)
+}
+
+/* 最终工具栏显隐状态必须放在主题样式之后，避免被前面的布局规则覆盖。 */
+.desktop-shell .tool-rail {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  clip-path: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .16s ease, visibility 0s linear .16s
+}
+
+.desktop-shell.tools-visible .tool-rail,
+.desktop-shell .tool-rail:focus-within {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s
+}
+
+.desktop-shell.tools-visible .tool-rail .tool-button,
+.desktop-shell .tool-rail:focus-within .tool-button {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(0) scale(1)
+}
+
+/* H5 UI 展示板：强制展开所有浮层，Electron 不应用这些规则。 */
+.browser-preview.show-all-overlays .ellen-speech[hidden],
+.browser-preview.show-all-overlays .chat-dock[hidden],
+.browser-preview.show-all-overlays .floating-panel[hidden],
+.browser-preview.show-all-overlays #speech-confirm[hidden] {
+  display: block !important
+}
+
+.browser-preview.show-all-overlays .chat-dock[hidden] {
+  display: grid !important
+}
+
+.browser-preview.show-all-overlays dialog:not([open]) {
+  display: block
+}
+
+.browser-preview.show-all-overlays .desktop-shell .tool-rail,
+.browser-preview.show-all-overlays .desktop-shell .tool-rail .tool-button {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none
+}
+
+.browser-preview.show-all-overlays .timer-window {
+  position: fixed;
+  left: calc(50% + 155px);
+  right: auto;
+  top: 90px;
+  bottom: auto
+}
+
+.browser-preview.show-all-overlays .history-window {
+  position: fixed;
+  right: 18px;
+  top: 90px
+}
+
+.browser-preview.show-all-overlays .settings-window {
+  position: fixed;
+  left: 18px;
+  right: auto;
+  top: 90px
+}
+
+.browser-preview.show-all-overlays .paper-dialog {
+  position: fixed;
+  left: 18px;
+  bottom: 18px;
+  top: auto;
+  margin: 0
+}
+
+.browser-preview.show-all-overlays .confirm-card {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  left: auto;
+  top: auto;
+  margin: 0
+}
+
+.browser-preview.show-all-overlays #speech-confirm {
+  position: fixed;
+  left: 50%;
+  top: auto;
+  bottom: 18px;
+  width: 280px;
+  transform: translateX(-50%)
+}
+
+/* ===== 小型对话与确认浮层 ===== */
+.desktop-shell .ellen-speech {
+  position: fixed;
+  z-index: 24;
+  left: 50%;
+  top: 6px;
+  width: 218px;
+  min-height: 44px;
+  max-height: 116px;
+  padding: 10px 12px;
+  overflow: auto;
+  border: 2px solid #15171b;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  filter: drop-shadow(4px 4px 0 var(--ui-red));
+  clip-path: none;
+  transform: translateX(-50%)
+}
+
+.desktop-shell .ellen-speech:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 24px;
+  height: 7px;
+  background: repeating-linear-gradient(135deg, var(--ui-red) 0 4px, #111 4px 8px)
+}
+
+.desktop-shell .ellen-speech p {
+  margin: 0;
+  padding-right: 8px;
+  text-align: left;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  line-height: 1.5
+}
+
+.desktop-shell .ellen-speech small {
+  position: sticky;
+  bottom: 0;
+  display: block;
+  margin-top: 5px;
+  padding-top: 3px;
+  border-top: 1px dashed #a8a39a;
+  background: var(--ui-paper);
+  text-align: left
+}
+
+#speech-confirm {
+  position: fixed;
+  z-index: 31;
+  left: 50%;
+  top: 72px;
+  width: 218px;
+  padding: 12px;
+  border: 2px solid #17191d;
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  box-shadow: 4px 4px 0 var(--ui-red);
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  transform: translateX(-50%)
+}
+
+#speech-confirm:before {
+  content: "VOICE CHECK //";
+  display: block;
+  margin: -2px 0 8px;
+  color: var(--ui-red);
+  font: 800 8px/1 monospace;
+  letter-spacing: 1px
+}
+
+#speech-confirm p {
+  max-height: 52px;
+  margin: 5px 0;
+  padding: 6px 7px;
+  overflow: auto;
+  border-left: 3px solid #363940;
+  background: #ded9d0;
+  overflow-wrap: anywhere;
+  font-size: 10px;
+  line-height: 1.35
+}
+
+#speech-confirm #speech-corrected {
+  border-left-color: var(--ui-red);
+  background: #fffaf2
+}
+
+#speech-confirm button {
+  min-height: 28px;
+  margin-top: 5px;
+  padding: 4px 7px;
+  border: 1px solid #24262b;
+  border-radius: 0;
+  background: #24272d;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap
+}
+
+#speech-confirm #speech-accept {
+  background: var(--ui-red)
+}
+
+dialog.confirm-card {
+  position: fixed;
+  z-index: 32;
+  left: 50%;
+  top: 72px;
+  width: 218px;
+  padding: 13px;
+  color: var(--ui-ink);
+  background: var(--ui-paper);
+  box-shadow: 4px 4px 0 var(--ui-red);
+  filter: none;
+  transform: translateX(-50%)
+}
+
+dialog.confirm-card h2 {
+  margin: 0 0 8px;
+  font-size: 14px
+}
+
+dialog.confirm-card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px
+}
+
+dialog.confirm-card p {
+  max-height: 48px;
+  margin: 5px 0 9px;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+  line-height: 1.35
+}
+
+dialog.confirm-card menu {
+  gap: 6px;
+  margin: 0
+}
+
+dialog.confirm-card button {
+  min-height: 30px;
+  padding: 5px;
+  font-size: 10px
+}
+
+/* H5 展示板中按“回复 → 待办确认 → 语音确认”纵向排列。 */
+.browser-preview.show-all-overlays .ellen-speech {
+  left: 50%;
+  top: calc(50% - 250px)
+}
+
+.browser-preview.show-all-overlays .confirm-card {
+  left: 50%;
+  right: auto;
+  top: calc(50% - 122px);
+  bottom: auto;
+  margin: 0;
+  transform: translateX(-50%)
+}
+
+.browser-preview.show-all-overlays #speech-confirm {
+  left: 50%;
+  top: calc(50% + 45px);
+  bottom: auto;
+  width: 218px;
+  transform: translateX(-50%)
+}
+
+/* 默认只显示人物；鼠标进入整个桌宠区域时才显示无底板工具按钮。 */
+.tool-rail {
+  width: 39px;
+  min-height: 218px;
+  padding: 5px 3px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  filter: none;
+  clip-path: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .16s ease, visibility 0s linear .16s
+}
+
+.tool-rail:before {
+  display: none
+}
+
+.tool-rail .tool-button {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-10px) scale(.92);
+  transition: opacity .14s ease, transform .18s ease, filter .16s ease
+}
+
+.desktop-shell:hover .tool-rail,
+.tool-rail:focus-within {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s
+}
+
+.desktop-shell:hover .tool-rail .tool-button,
+.tool-rail:focus-within .tool-button {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0) scale(1)
+}
+
+.desktop-shell:hover .tool-rail .tool-button:hover,
+.tool-rail:focus-within .tool-button:focus-visible {
+  transform: translateX(2px) scale(1.04)
+}
+
+.tool-rail {
+  left: 18px;
+  top: 48%;
+  gap: 0;
+  -webkit-app-region: no-drag
+}
+
+.tool-button {
+  width: 66px;
+  height: 66px
+}
+
+.timer-window {
+  left: auto;
+  right: 8px;
+  bottom: 70px;
+  width: 290px
+}
+
+.history-window {
+  right: 8px;
+  top: 90px;
+  width: 310px;
+  height: 72%
+}
+
+.settings-window {
+  right: 8px;
+  top: 120px;
+  width: 270px
+}
+
+.chat-dock {
+  left: 56%;
+  bottom: 8px;
+  grid-template-columns: 300px 48px 40px;
+  gap: 5px;
+  -webkit-app-region: no-drag
+}
+
+.debug-drawer {
+  left: 8px;
+  bottom: 8px;
+  width: 220px
+}
+
+.floating-panel,
+.paper-dialog,
+.confirm-card,
+.tool-button,
+.debug-drawer {
+  -webkit-app-region: no-drag
+}
+
+/* 紧凑桌宠模式：默认仅保留人物和工具列，气泡及输入框按需出现。 */
+.ellen-speech[hidden],
+.chat-dock[hidden] {
+  display: none
+}
+
+.ellen-speech {
+  top: 2%;
+  left: 61%;
+  width: 245px;
+  padding: 10px 14px
+}
+
+.ellen-speech p {
+  font-size: 12px
+}
+
+.tool-rail {
+  left: 5px;
+  top: 49%
+}
+
+.tool-button {
+  width: 40px;
+  height: 40px
+}
+
+.chat-tool {
+  position: relative;
+  border: 2px solid #555;
+  border-radius: 50%;
+  background: radial-gradient(circle, #323337 0 50%, #111 52% 66%, #777 68% 71%, #17181b 73%)
+}
+
+.chat-tool span {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  width: 23px;
+  height: 17px;
+  border: 3px solid #fff;
+  border-radius: 6px
+}
+
+.chat-tool span:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  bottom: -7px;
+  border-width: 5px 5px 0 0;
+  border-style: solid;
+  border-color: #fff transparent transparent transparent
+}
+
+.chat-tool.active {
+  filter: drop-shadow(0 0 7px #e2313c);
+  transform: translateX(-3px)
+}
+
+.chat-dock {
+  left: 50%;
+  bottom: 5px;
+  width: calc(100% - 12px);
+  grid-template-columns: minmax(0, 1fr) 44px 38px;
+  gap: 4px
+}
+
+.chat-dock textarea {
+  padding: 8px;
+  font-size: 11px
+}
+
+.chat-dock button {
+  font-size: 10px
+}
+
+.timer-window {
+  right: 4px;
+  bottom: 58px;
+  width: 278px
+}
+
+.history-window {
+  right: 4px;
+  top: 58px;
+  width: 292px;
+  height: 78%
+}
+
+.settings-window {
+  right: 4px;
+  top: 70px;
+  width: 255px
+}
+
+.debug-drawer {
+  left: 4px;
+  bottom: 4px;
+  width: 176px;
+  font-size: 10px
+}
+
+/* 浏览器专用画布：以 Electron 的 400×540 实际窗口尺寸居中展示。 */
+.browser-preview body {
+  display: grid;
+  place-items: center;
+  background-color: #25272b;
+  background-image: linear-gradient(45deg, #2d3035 25%, transparent 25%), linear-gradient(-45deg, #2d3035 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #2d3035 75%), linear-gradient(-45deg, transparent 75%, #2d3035 75%);
+  background-size: 24px 24px;
+  background-position: 0 0, 0 12px, 12px -12px, -12px 0
+}
+
+.browser-preview body:before {
+  content: "HTML 布局预览 · 300 × 300";
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 5px;
+  background: #111c;
+  color: #ddd;
+  font-size: 12px
+}
+
+.browser-preview .desktop-shell {
+  width: 240px;
+  height: 300px;
+  box-shadow: 0 0 0 1px #ffffff38, 0 18px 60px #0008
+}
+
+.browser-preview #live2d-canvas {
+  display: block;
+  left: calc(60% - 80px);
+  top: 50%;
+  width: 170px;
+  height: 240px;
+  transform: translateY(-50%)
+}
+
+/* Electron 与 HTML 预览共用同一人物视口，避免两端显示比例不一致。 */
+.desktop-shell #live2d-canvas {
+  display: block;
+  inset: auto;
+  /* 原左边界保持不动，只在右侧增加 10px，避免尾巴末端被裁切。 */
+  left: calc(60% - 80px);
+  top: 50%;
+  width: 170px;
+  height: 240px;
+  image-rendering: auto;
+  backface-visibility: hidden;
+  transform: translateY(-50%)
+}
+
+/* ===== CSS-only 都市工业风 UI =====
+ * 不再使用切图素材。保留上方由用户调整过的 shell 与 Live2D canvas 尺寸。
+ */
+:root {
+  --ui-ink: #0b0c0f;
+  --ui-panel: #17191e;
+  --ui-panel-2: #24272d;
+  --ui-paper: #f2eee6;
+  --ui-red: #e52b38;
+  --ui-cyan: #62d9f3;
+  --ui-line: #4a4e56;
+  --ui-muted: #9b9da3
+}
+
+.tool-rail {
+  left: 2px;
+  top: 50%;
+  gap: 4px;
+  padding: 5px 3px;
+  border-left: 3px solid var(--ui-red);
+  background: linear-gradient(90deg, #090a0ddd, #17191ecc 72%, transparent);
+  transform: translateY(-50%);
+  clip-path: polygon(0 0, 85% 0, 100% 7%, 100% 93%, 85% 100%, 0 100%)
+}
+
+.tool-button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #5d6169;
+  border-radius: 2px;
+  color: #f5f5f3;
+  background: linear-gradient(145deg, #30333a 0 42%, #111318 43%);
+  box-shadow: inset 2px 2px 0 #ffffff12, 2px 2px 0 #050608;
+  overflow: hidden
+}
+
+.tool-button:after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  bottom: -5px;
+  width: 12px;
+  height: 12px;
+  background: var(--ui-red);
+  transform: rotate(45deg)
+}
+
+.tool-button:hover,
+.tool-button:focus-visible,
+.tool-button.active,
+.tool-button.recording {
+  color: #fff;
+  border-color: var(--ui-red);
+  background: linear-gradient(145deg, #e52b38 0 36%, #202228 37%);
+  filter: drop-shadow(0 0 5px #e52b3877);
+  transform: translateX(2px)
+}
+
+.ui-icon,
+.ui-icon:before,
+.ui-icon:after {
+  position: relative;
+  display: block;
+  box-sizing: border-box
+}
+
+.ui-icon {
+  z-index: 1;
+  width: 18px;
+  height: 18px
+}
+
+.icon-mic:before {
+  content: "";
+  width: 8px;
+  height: 12px;
+  margin: 0 auto;
+  border: 2px solid currentColor;
+  border-radius: 6px
+}
+
+.icon-mic:after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  bottom: 0;
+  width: 10px;
+  height: 8px;
+  border: 2px solid currentColor;
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 3px 0 -1px currentColor
+}
+
+.icon-chat {
+  height: 14px;
+  margin-top: 1px;
+  border: 2px solid currentColor;
+  border-radius: 3px
+}
+
+.icon-chat:before {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  width: 9px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 0 4px 0 currentColor
+}
+
+.icon-chat:after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  bottom: -6px;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  transform: rotate(15deg)
+}
+
+.icon-calendar {
+  border: 2px solid currentColor;
+  border-radius: 2px
+}
+
+.icon-calendar:before {
+  content: "";
+  position: absolute;
+  left: -2px;
+  top: 3px;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  box-shadow: 4px 5px 0 -1px currentColor, 10px 5px 0 -1px currentColor, 4px 10px 0 -1px currentColor, 10px 10px 0 -1px currentColor
+}
+
+.icon-calendar:after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: -4px;
+  width: 2px;
+  height: 5px;
+  background: currentColor;
+  box-shadow: 8px 0 currentColor
+}
+
+.icon-timer {
+  border: 2px solid currentColor;
+  border-radius: 50%
+}
+
+.icon-timer:before {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 3px;
+  width: 2px;
+  height: 6px;
+  background: currentColor;
+  transform-origin: bottom;
+  transform: rotate(-35deg)
+}
+
+.icon-timer:after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: -5px;
+  width: 6px;
+  height: 3px;
+  border: 2px solid currentColor;
+  border-bottom: 0
+}
+
+.icon-history:before {
+  content: "";
+  width: 16px;
+  height: 2px;
+  margin: 3px 0;
+  background: currentColor;
+  box-shadow: 0 5px currentColor, 0 10px currentColor
+}
+
+.icon-history:after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  top: 2px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--ui-red);
+  box-shadow: 0 5px var(--ui-red), 0 10px var(--ui-red)
+}
+
+.icon-settings:before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border: 4px dotted currentColor;
+  border-radius: 50%
+}
+
+.icon-settings:after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 2px solid currentColor;
+  border-radius: 50%
+}
+
+.ellen-speech {
+  top: 6px;
+  left: 54%;
+  width: 185px;
+  min-height: 42px;
+  padding: 9px 12px 12px;
+  border: 2px solid var(--ui-ink);
+  background: var(--ui-paper);
+  color: var(--ui-ink);
+  filter: drop-shadow(4px 4px 0 var(--ui-red));
+  clip-path: polygon(0 4px, 96% 0, 100% 82%, 62% 88%, 56% 100%, 52% 87%, 3% 94%)
+}
+
+.ellen-speech:before {
+  content: "RESPONSE // 01";
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ui-red);
+  font: 700 7px/1 monospace;
+  letter-spacing: 1px
+}
+
+.ellen-speech p {
+  font-size: 11px;
+  line-height: 1.35
+}
+
+.voice-wave {
+  display: none;
+  height: 18px;
+  margin: 1px 0 5px;
+  align-items: center;
+  justify-content: center;
+  gap: 3px
+}
+
+.ellen-speech[data-mode="recording"] .voice-wave {
+  display: flex
+}
+
+.voice-wave i {
+  width: 3px;
+  height: 5px;
+  background: var(--ui-red);
+  animation: voice-wave .72s ease-in-out infinite alternate
+}
+
+.voice-wave i:nth-child(2), .voice-wave i:nth-child(4) { animation-delay: -.24s }
+.voice-wave i:nth-child(3) { animation-delay: -.48s }
+
+@keyframes voice-wave {
+  from { height: 4px; opacity: .45 }
+  to { height: 17px; opacity: 1 }
+}
+
+.timer-head {
+  position: absolute;
+  z-index: 6;
+  top: 8px;
+  left: 54%;
+  min-width: 78px;
+  max-width: 118px;
+  padding: 5px 9px 6px;
+  color: var(--ui-paper);
+  background: #111318eF;
+  border: 1px solid #4e525a;
+  border-left: 3px solid var(--ui-cyan);
+  box-shadow: 3px 3px 0 var(--ui-red);
+  transform: translateX(-50%);
+  text-align: center;
+  pointer-events: none
+}
+
+.timer-head[hidden],
+.ellen-speech:not([hidden]) ~ .timer-head {
+  display: none
+}
+
+.timer-head strong {
+  display: block;
+  color: var(--ui-cyan);
+  font: 800 14px/1 "JetBrains Mono", monospace
+}
+
+.timer-head small {
+  display: block;
+  margin-top: 3px;
+  overflow: hidden;
+  color: #b8b9bd;
+  font-size: 8px;
+  white-space: nowrap;
+  text-overflow: ellipsis
+}
+
+/* Electron 人物窗口：气泡和倒计时贴在人物头顶。
+ * 固定 bottom 而不是 top，使内容增加时只向上延伸，不会压住模型。 */
+html:not(.browser-preview) .desktop-shell .ellen-speech {
+  position: absolute;
+  top: auto;
+  right: 11px;
+  bottom: 270px;
+  left: auto;
+  width: 218px;
+  min-height: 44px;
+  max-height: 126px;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform: none;
+}
+
+html:not(.browser-preview) .desktop-shell .timer-head {
+  position: absolute;
+  top: auto;
+  right: 61px;
+  bottom: 270px;
+  left: auto;
+  margin: 0;
+  transform: none;
+}
+
+.chat-dock {
+  left: 50%;
+  bottom: 4px;
+  width: calc(100% - 8px);
+  padding: 4px;
+  grid-template-columns: minmax(0, 1fr) max-content max-content;
+  border: 1px solid var(--ui-line);
+  border-left: 4px solid var(--ui-red);
+  background: #101216eF;
+  box-shadow: 3px 3px 0 #0009;
+  clip-path: polygon(0 0, 96% 0, 100% 24%, 100% 100%, 0 100%)
+}
+
+.chat-dock textarea,
+.chat-dock button,
+.paper-dialog input,
+.paper-dialog form button {
+  border: 1px solid var(--ui-line);
+  border-radius: 0;
+  background: #202329;
+  color: #f4f4f2
+}
+
+.chat-dock textarea:focus {
+  border-color: var(--ui-cyan);
+  box-shadow: inset 3px 0 var(--ui-cyan)
+}
+
+.chat-dock button,
+.paper-dialog form button {
+  background: var(--ui-red);
+  min-width: 40px;
+  padding-inline: 6px;
+  font-weight: 800;
+  white-space: nowrap
+}
+
+.floating-panel,
+.paper-dialog,
+.confirm-card {
+  border: 2px solid #50545c;
+  border-radius: 0;
+  background: linear-gradient(145deg, #24272d 0 45%, #121419 46%);
+  box-shadow: 6px 7px 0 #07080a, inset 3px 0 var(--ui-red);
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 10px 100%, 0 calc(100% - 10px))
+}
+
+.floating-panel header,
+.paper-dialog header {
+  position: relative;
+  min-height: 32px;
+  background: linear-gradient(105deg, var(--ui-red) 0 38%, #202329 38%);
+  text-transform: uppercase;
+  letter-spacing: .5px
+}
+
+.floating-panel header:after,
+.paper-dialog header:after {
+  content: "///";
+  position: absolute;
+  right: 34px;
+  color: #ffffff42;
+  font: 900 16px/1 monospace
+}
+
+.timer-window,
+.history-window,
+.settings-window {
+  right: 4px;
+  left: auto;
+  width: 232px;
+  max-height: 286px
+}
+
+.timer-window { bottom: 4px }
+.history-window { top: 4px; height: 286px }
+.settings-window { top: 20px }
+
+.timer-ring {
+  width: 104px;
+  height: 104px;
+  border: 8px solid var(--ui-cyan);
+  border-right-color: #343840;
+  box-shadow: inset 0 -8px var(--ui-paper), 0 0 0 3px #090a0c, 0 0 12px #62d9f344
+}
+
+.history-list article,
+.todo-list {
+  border-left: 3px solid var(--ui-red);
+  background: #0e1014
+}
+
+.paper-dialog {
+  width: min(460px, 94vw)
+}
+
+.todo-calendar button {
+  border-color: #3e4249;
+  background: #13151a
+}
+
+.todo-calendar button.selected {
+  color: #08090b;
+  border-color: var(--ui-cyan);
+  background: var(--ui-cyan);
+  box-shadow: 3px 3px 0 var(--ui-red)
+}
+
+.confirm-card {
+  color: var(--ui-ink);
+  background: var(--ui-paper);
+  box-shadow: 7px 7px 0 var(--ui-red)
+}
+
+.debug-drawer {
+  left: auto;
+  right: 3px;
+  bottom: 3px;
+  width: 126px;
+  padding: 5px 7px;
+  border: 1px solid #4e525a;
+  border-right: 3px solid var(--ui-red);
+  background: #111318e8;
+  clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px)
+}
+
+.debug-drawer summary {
+  font-size: 9px;
+  letter-spacing: .5px
+}
+
+.motion-grid button,
+.interaction-audio-grid button {
+  padding: 4px;
+  border: 1px solid #4b4f57;
+  border-radius: 0;
+  background: #22252b;
+  font-size: 8px
+}

@@ -1,0 +1,20 @@
+# 本地密钥配置不能提交或分享；只忽略仓库根目录这一份。
+/config.js
+
+node_modules/
+dist/
+.npm-cache/
+
+# macOS 和本地日志。
+.DS_Store
+*.log
+
+# 本地语音识别运行时与原生程序不提交。
+# 使用者需要根据操作系统自行下载、编译并配置。
+native/
+vendor/whisper.cpp/
+
+# 应用图标与宣传设计稿不属于桌宠源码。
+assets/icons/
+public/icon/
+design/promo/

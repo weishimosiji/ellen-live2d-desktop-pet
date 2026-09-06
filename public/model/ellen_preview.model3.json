@@ -1,0 +1,31 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "ellen_basic_source_2_reset.moc3",
+    "Textures": [
+      "ellen_basic_source_2_reset.2048/texture_00.png"
+    ],
+    "DisplayInfo": "ellen_basic_source_2_reset.cdi3.json",
+    "Motions": {
+      "Preview": [
+        { "File": "motions/wink.motion3.json", "FadeInTime": 0, "FadeOutTime": 0 },
+        { "File": "motions/sorry.motion3.json", "FadeInTime": 0.3, "FadeOutTime": 0.4 },
+        { "File": "motions/sigh.motion3.json", "FadeInTime": 0.3, "FadeOutTime": 0.4 },
+        { "File": "motions/exhale.motion3.json", "FadeInTime": 0.2, "FadeOutTime": 0.3 },
+        { "File": "motions/smile.motion3.json", "FadeInTime": 0.2, "FadeOutTime": 0.4 },
+        { "File": "motions/doze.motion3.json", "FadeInTime": 0.5, "FadeOutTime": 0.6 },
+        { "File": "motions/shake_head.motion3.json", "FadeInTime": 0.3, "FadeOutTime": 0.4 },
+        { "File": "motions/nod.motion3.json", "FadeInTime": 0.3, "FadeOutTime": 0.4 },
+        { "File": "motions/thumbs_up.motion3.json", "FadeInTime": 0.25, "FadeOutTime": 0.5 },
+        { "File": "motions/angry_stomp.motion3.json", "FadeInTime": 0.25, "FadeOutTime": 0.5 }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": ["ParamMouthOpenY"]
+    }
+  ]
+}
